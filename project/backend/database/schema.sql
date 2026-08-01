@@ -48,3 +48,85 @@ FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 -- INSERT INTO users (full_name, email, phone, password_hash, role)
 -- VALUES ('System Admin', 'admin@smartmallparking.com', '9999999999',
 -- '$2b$10$0f0m0m0m0m0m0m0m0m0m0uK3f3f3f3f3f3f3f3f3f3f3f3f3f3f3', 'ADMIN');
+CREATE DATABASE smart_parking;
+
+USE smart_parking;
+
+-- user
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('CUSTOMER','SECURITY','ADMIN') NOT NULL
+);
+
+-- parking slot
+CREATE TABLE parking_slots (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    slot_number VARCHAR(20) UNIQUE NOT NULL,
+    floor VARCHAR(50),
+    status ENUM('AVAILABLE','OCCUPIED','RESERVED') DEFAULT 'AVAILABLE'
+);
+
+-- booking
+CREATE TABLE bookings (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id BIGINT,
+
+    slot_id BIGINT,
+
+    vehicle_number VARCHAR(30),
+
+    vehicle_type VARCHAR(20),
+
+    booking_time DATETIME,
+
+    duration INT,
+
+    price DOUBLE,
+
+    status ENUM('ACTIVE','COMPLETED'),
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(id),
+
+    FOREIGN KEY (slot_id)
+        REFERENCES parking_slots(id)
+);
+
+INSERT INTO parking_slots(slot_number,floor,status)
+VALUES
+('A1','Ground Floor','AVAILABLE'),
+('A2','Ground Floor','AVAILABLE'),
+('A3','Ground Floor','AVAILABLE'),
+('A4','Ground Floor','AVAILABLE'),
+('A5','Ground Floor','AVAILABLE'),
+('A6','Ground Floor','AVAILABLE'),
+('A7','Ground Floor','AVAILABLE'),
+('A8','Ground Floor','AVAILABLE'),
+('A9','Ground Floor','AVAILABLE'),
+('A10','Ground Floor','AVAILABLE'),
+('A11','Ground Floor','AVAILABLE'),
+('A12','Ground Floor','AVAILABLE');
+
+SHOW TABLES;
+SELECT * FROM parking_slots;
+SELECT COUNT(*) FROM parking_slots;
+INSERT INTO parking_slots(slot_number,floor,status)
+VALUES
+('A1','Ground Floor','AVAILABLE'),
+('A2','Ground Floor','AVAILABLE'),
+('A3','Ground Floor','AVAILABLE'),
+('A4','Ground Floor','AVAILABLE'),
+('A5','Ground Floor','AVAILABLE'),
+('A6','Ground Floor','AVAILABLE'),
+('A7','Ground Floor','AVAILABLE'),
+('A8','Ground Floor','AVAILABLE'),
+('A9','Ground Floor','AVAILABLE'),
+('A10','Ground Floor','AVAILABLE'),
+('A11','Ground Floor','AVAILABLE'),
+('A12','Ground Floor','AVAILABLE');
+
+SELECT * FROM parking_slots;
